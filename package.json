@@ -54,7 +54,11 @@
           }
         }
       }
-    ]
+    ],
+    "sources": [{
+      "src": ["node_modules/babel-runtime/helpers/{classCallCheck,createClass,regenerator,asyncGenerator}*.js", "node_modules/babel-runtime/regenerator/*.js"],
+      "dest": "dist/node_modules"
+    }]
   },
   "dependencies": {
     "babel-plugin-external-helpers": "^6.22.0",
