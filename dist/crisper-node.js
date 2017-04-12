@@ -93,8 +93,11 @@ var resolvePaths = function resolvePaths(source, html, js, dist) {
     }
   });
 };
-var getFileContent = function getFileContent(source) {
+var getFileContent = function getFileContent(source, contents) {
   return new Promise(function (resolve, reject) {
+    if (contents) {
+      return resolve(contents);
+    }
     readFile(source, 'utf-8', function (error, content) {
       if (error) {
         reject(error);
@@ -295,13 +298,13 @@ var CrisperTemplate = function (_CrisperBase2) {
 }(CrisperBase);
 module.exports = function () {
   var source = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-  var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { html: null, js: null, dist: null };
+  var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { html: null, js: null, dist: null, contents: null };
   if (source === null) {
     return console.warn('source::undefined');
   }
   async function run() {
     var paths = await resolvePaths(source, opts.html, opts.js, opts.dist);
-    var content = await getFileContent(paths.source);
+    var content = await getFileContent(paths.source, opts.contents);
     var document = await transformParse(content);
     var childNodes = await getChildNodes(document);
     var script = null;

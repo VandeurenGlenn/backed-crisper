@@ -62,8 +62,11 @@ const resolvePaths = (source, html, js, dist) => {
     }
   });
 };
-const getFileContent = source => {
+const getFileContent = (source, contents) => {
   return new Promise((resolve, reject) => {
+    if (contents) {
+      return resolve(contents);
+    }
     readFile(source, 'utf-8', (error, content) => {
       if (error) {
         reject(error);
@@ -174,13 +177,13 @@ class CrisperTemplate extends CrisperBase {
     return `<template${attributes}>\n  ${this.content}\n</template>`;
   }
 }
-module.exports = (source = null, opts = { html: null, js: null, dist: null }) => {
+module.exports = (source = null, opts = { html: null, js: null, dist: null, contents: null }) => {
   if (source === null) {
     return console.warn('source::undefined');
   }
   async function run() {
     const paths = await resolvePaths(source, opts.html, opts.js, opts.dist);
-    const content = await getFileContent(paths.source);
+    const content = await getFileContent(paths.source, opts.contents);
     const document = await transformParse(content);
     const childNodes = await getChildNodes(document);
     let script = null;
