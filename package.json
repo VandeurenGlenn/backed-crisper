@@ -6,7 +6,9 @@
   "author": "Glenn Vandeuren <vandeurenglenn@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "prepare": "yarn run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "backed": {
     "bundles": [
@@ -55,10 +57,15 @@
         }
       }
     ],
-    "sources": [{
-      "src": ["node_modules/babel-runtime/helpers/{classCallCheck,createClass,regenerator,asyncGenerator}*.js", "node_modules/babel-runtime/regenerator/*.js"],
-      "dest": "dist/node_modules"
-    }]
+    "sources": [
+      {
+        "src": [
+          "node_modules/babel-runtime/helpers/{classCallCheck,createClass,regenerator,asyncGenerator}*.js",
+          "node_modules/babel-runtime/regenerator/*.js"
+        ],
+        "dest": "dist/node_modules"
+      }
+    ]
   },
   "dependencies": {
     "babel-plugin-external-helpers": "^6.22.0",
@@ -66,9 +73,11 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-es2016": "^6.24.1",
-    "parse5": "^3.0.2"
+    "parse5": "^3.0.2",
+    "@snyk/protect": "latest"
   },
   "devDependencies": {
     "mocha": "^3.2.0"
-  }
+  },
+  "snyk": true
 }
